@@ -1,5 +1,5 @@
 require('./webpack.config.js');
-var devConfig = require('./webpack.config.js')();
+var devConfig = require('./webpack.config.js')('development');
 var path = require('path');
 var HTMLWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 var html = new HTMLWebpackHarddiskPlugin();
@@ -21,10 +21,10 @@ devConfig.devServer = {
         poll: true
     }
 }
-
 devConfig.output.path = '/assets/';
 devConfig.plugins.push(html);
 
 module.exports = devConfig;
 
-console.log('path', devConfig.output.path)
+console.log(devConfig)
+

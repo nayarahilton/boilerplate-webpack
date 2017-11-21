@@ -9,6 +9,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = (env) => {
 	const source = './src/js/'
 	const output =   'assets'
+	let isDev = env === 'development'
 
 	//expands source for target apps and merge objects with give 'main'
 	function mapEntries(main) {
@@ -35,10 +36,11 @@ module.exports = (env) => {
 			})
 		})
 	}
-
+	
 	const HTMLPlugins = generateHTMLPlugins('./src/html/pages');
 
 	let config = {
+		devtool: isDev ? 'inline-sourcemap' : false,
 		entry: mapEntries({
 			main: [
 			'./global.js', 
@@ -53,12 +55,15 @@ module.exports = (env) => {
 			rules: [
 				{
 					test: /\.styl$/,
+					exclude: /node_modules/,
 					use: ExtractTextPlugin.extract({
 						fallback: 'style-loader',
 						use: [
-							{ loader: 'stylint-loader' },
-							{ loader: 'css-loader', options: {sourceMap: true, url: false } },
+							{ loader: 'css-loader', options: {sourceMap: isDev, importLoaders: 1, url: false } },
+							{ loader: 'postcss-loader', options: {sourceMap: isDev, config: { path: './postcss.config.js' } } },
+							
 							{ loader: 'stylus-loader' },
+							// { loader: 'stylint-loader' }
 						]
 					})
 				},
@@ -98,5 +103,8 @@ module.exports = (env) => {
 		]
 		.concat(HTMLPlugins)
 	}
+	// stylint: {
+	// 	config: './.stylintrc'
+	// }
 	return config;
 }
