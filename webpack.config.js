@@ -56,6 +56,7 @@ module.exports = (env) => {
 					use: ExtractTextPlugin.extract({
 						fallback: 'style-loader',
 						use: [
+							{ loader: 'stylint-loader' },
 							{ loader: 'css-loader', options: {sourceMap: true, url: false } },
 							{ loader: 'stylus-loader' },
 						]
