@@ -70,11 +70,14 @@ module.exports = (env) => {
 						]
 					} 
 				},
-				{ test: /\.js$/, exclude: /node_modules/, loader: 'eslint-loader'	},
-				{ test: /\.es6$/, exclude: /node_modules/, loader: 'babel-loader', query: {
-						presets: ['react', 'es2015'] 
-					}
-				}
+				{ test: /.js$/,
+					exclude: /node_modules/,
+					use:[
+						{ loader: "eslint-loader", options: { emitError: true, emitWarning: true, failOnError: true } },
+						{ loader: "babel-loader", options: { presets: ["es2015"] } }
+						
+					],
+				},
 			],
 		},
 		resolve: {
