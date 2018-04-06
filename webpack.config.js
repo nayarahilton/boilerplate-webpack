@@ -44,7 +44,7 @@ module.exports = (env) => {
 	const HTMLPlugins = generateHTMLPlugins('./src/html/pages');
 
 	let config = {
-		//devtool: isDev ? 'eval-cheap-module-source-map' : false,
+		devtool: isDev ? 'inline-sourcemap' : false,
 		entry: mapEntries({
 			main: [
 			'./global.js',
@@ -53,8 +53,8 @@ module.exports = (env) => {
 		}),
 		output: {
 			filename: 'js/[name].min.js',
-			path: path.resolve(__dirname, output),
-			publicPath: 'dist/'
+			path: path.resolve(__dirname, output)
+			//publicPath: '/assets/'
 		},
 		module: {
 			rules: [
@@ -64,8 +64,8 @@ module.exports = (env) => {
 					use: ExtractTextPlugin.extract({
 						fallback: 'style-loader',
 						use: [
-							{ loader: 'css-loader', options: {sourceMap: isDev, importLoaders: 1, url: false } },
-							{ loader: 'postcss-loader', options: { sourceMap: false, config: { path: './postcss.config.js'} } },
+							{ loader: 'css-loader', options: {sourceMap: isDev, importLoaders: 1 } },
+							{ loader: 'postcss-loader', options: { sourceMap: isDev, config: { path: './postcss.config.js'} } },
 							{ loader: 'stylus-loader' }
 							// { loader: 'stylint-loader' }
 						]
@@ -84,7 +84,8 @@ module.exports = (env) => {
 					  }
 					]
 				  },
-				{ test: /.js$/,
+				{ 
+					test: /.js$/,
 					exclude: /node_modules/,
 					use:[
 						{ loader: 'eslint-loader', options: { emitError: true, emitWarning: true, failOnError: true } },
@@ -92,6 +93,43 @@ module.exports = (env) => {
 
 					],
 				},
+				{
+					test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+					use: [
+						{
+						loader: 'file-loader',
+						options: {
+							limit: 50000,
+							mimetype: 'application/font-woff',
+							name: 'fonts/[name].[ext]',
+						},
+						}
+					],
+				},
+				{
+					test: /\.(jpe?g|png|gif|svg)$/i,
+					use: [
+						{
+						  loader: 'url-loader',
+						  options: {
+							name: 'img/[name].[hash].[ext]',
+						  },
+						},
+						{
+						  loader: 'image-webpack-loader',
+						  options: {
+							pngquant: {
+							  quality: '80-90',
+							  speed: 1,
+							},
+						  },
+						},
+					],
+				},
+				{
+					test: /\.(ico|icns)$/,
+					use: [{loader: 'file-loader', options: {name: 'icons/[name].[ext]'}}]
+				}
 			],
 		},
 		resolve: {
