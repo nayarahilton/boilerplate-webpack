@@ -72,19 +72,18 @@ module.exports = (env) => {
 					})
 				},
 				{
-					test: /\.html$|njk|nunjucks/,
-					use: ['html-loader',{
-						loader: 'nunjucks-html-loader',
-						options : {
-						  searchPaths: [
-							  path.join(__dirname, 'src/html/pages'),
-								path.join(__dirname, 'src/html/components'),
-								path.join(__dirname, 'src/html/layouts')
+					test: /\.(njk|nunjucks|html|tpl|tmpl)$/,
+					use: [
+					  {
+						loader: 'nunjucks-isomorphic-loader',
+						query: {
+						  root: [
+							  path.resolve(__dirname, 'src/html/')
 							]
 						}
-					  }]
-
-				},
+					  }
+					]
+				  },
 				{ test: /.js$/,
 					exclude: /node_modules/,
 					use:[

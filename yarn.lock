@@ -4001,6 +4001,20 @@ nunjucks-html-loader@^1.1.0:
     loader-utils "^0.2.16"
     nunjucks "^3.0.0"
 
+nunjucks-isomorphic-loader@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/nunjucks-isomorphic-loader/-/nunjucks-isomorphic-loader-2.0.2.tgz#839f920d2102449a0f8286a57a16fd9f08c8bd10"
+  dependencies:
+    loader-utils "^1.1.0"
+    nunjucks-loader "^2.4.5"
+
+nunjucks-loader@^2.4.5:
+  version "2.4.9"
+  resolved "https://registry.yarnpkg.com/nunjucks-loader/-/nunjucks-loader-2.4.9.tgz#76484b99112d8c0eea714bae8f5f7e8880422660"
+  dependencies:
+    loader-utils "^0.2.12"
+    slash "~1.0.0"
+
 nunjucks-loader@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/nunjucks-loader/-/nunjucks-loader-3.0.0.tgz#54ea42a3a383e43da764954456f2053041fa4db6"
