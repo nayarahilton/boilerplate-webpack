@@ -1,0 +1,11 @@
+{% extends "layouts/default.njk" %}
+
+{% import 'components/button.njk' as button %}
+
+{% set app = 'product' %}
+
+{% block content %}
+	{{ button.default() }}
+    {{ button.default() }}
+{% endblock %}
+

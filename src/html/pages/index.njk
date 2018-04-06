@@ -1,0 +1,12 @@
+{% extends "layouts/default.njk" %}
+
+{% import 'components/button.njk' as button %}
+
+{% set app = 'home' %}
+
+{% block content %}
+	{{ button.default() }}
+
+    <div>{{hi}}</div>
+{% endblock %}
+

@@ -11,6 +11,7 @@ module.exports = (env) => {
 	const source = './src/js/'
 	const output =   'dist/assets'
 	let isDev = env === 'development'
+	process.noDeprecation = true;
 
 	//To accomplish our task we will write a simple function to read the files from our views directory and generate an array of HTMLWebpackPlugins.
 
@@ -20,13 +21,14 @@ module.exports = (env) => {
             // Split names and extension
             const parts = item.split('.')
             const name = parts[0]
-            const extension = parts[1]
+			const extension = parts[1]
+			console.log('nunjucks-html-loader!' + path.resolve(__dirname, `${templateDir}/${name}.${extension}`))
             return new HTMLWebpackPlugin({
                 alwaysWriteToDisk: true,
                 inject: false,
                 filename: path.resolve(__dirname, `dist/${name}.html`),
-                template: path.resolve(__dirname, `${templateDir}/${name}.${extension}`)
-            })
+                template: 'nunjucks-html-loader!' + path.resolve(__dirname, `${templateDir}/${name}.${extension}`)
+			})
         })
     }
 
@@ -51,7 +53,8 @@ module.exports = (env) => {
 		}),
 		output: {
 			filename: 'js/[name].min.js',
-			path: path.resolve(__dirname, output)
+			path: path.resolve(__dirname, output),
+			publicPath: 'dist/'
 		},
 		module: {
 			rules: [
@@ -68,14 +71,19 @@ module.exports = (env) => {
 						]
 					})
 				},
-				{ test: /\.hbs$/, loader: 'handlebars-loader',
-				query: {
-						extensions: '.hbs',
-						partialDirs: [
+				{
+					test: /\.html$|njk|nunjucks/,
+					use: ['html-loader',{
+						loader: 'nunjucks-html-loader',
+						options : {
+						  searchPaths: [
+							  path.join(__dirname, 'src/html/pages'),
 								path.join(__dirname, 'src/html/components'),
 								path.join(__dirname, 'src/html/layouts')
-						]
-					}
+							]
+						}
+					  }]
+
 				},
 				{ test: /.js$/,
 					exclude: /node_modules/,
@@ -92,7 +100,7 @@ module.exports = (env) => {
 			modules: ['node_modules'],
 
 			//all these extensions will be resolved without specifying extension in the `require` function
-			extensions: ['*', '.js', '.styl', '.hbs'],
+			extensions: ['*', '.js', '.styl', '.njk'],
 
 			alias: {
 				handlebars: 'handlebars/dist/handlebars.min.js',
