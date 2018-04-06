@@ -1,15 +1,34 @@
 const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
-const optimize = require('webpack').optimize;
+const webpack = require('webpack');
+const optimize = webpack.optimize;
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
 module.exports = (env) => {
 	const source = './src/js/'
-	const output =   'assets'
+	const output =   'dist/assets'
 	let isDev = env === 'development'
+
+	//To accomplish our task we will write a simple function to read the files from our views directory and generate an array of HTMLWebpackPlugins.
+
+	function generateHTMLPlugins (templateDir) {
+        const templates = fs.readdirSync(path.resolve(__dirname, templateDir))
+        return templates.map(item => {
+            // Split names and extension
+            const parts = item.split('.')
+            const name = parts[0]
+            const extension = parts[1]
+            return new HTMLWebpackPlugin({
+                alwaysWriteToDisk: true,
+                inject: false,
+                filename: path.resolve(__dirname, `dist/${name}.html`),
+                template: path.resolve(__dirname, `${templateDir}/${name}.${extension}`)
+            })
+        })
+    }
 
 	//expands source for target apps and merge objects with give 'main'
 	function mapEntries(main) {
@@ -20,30 +39,13 @@ module.exports = (env) => {
 		}, {}), main)
 	}
 
-	//To accomplish our task we will write a simple function to read the files from our views directory and generate an array of HTMLWebpackPlugins.
-	function generateHTMLPlugins (templateDir) {
-		const templates = fs.readdirSync(path.resolve(__dirname, templateDir))
-		return templates.map(item => {
-			// Split names and extension
-			const parts = item.split('.')
-			const name = parts[0]
-			const extension = parts[1]
-			return new HTMLWebpackPlugin({
-				alwaysWriteToDisk: true,
-				inject: false,
-				filename: path.resolve(__dirname, `html/${name}.html`),
-				template: path.resolve(__dirname, `${templateDir}/${name}.${extension}`)
-			})
-		})
-	}
-	
 	const HTMLPlugins = generateHTMLPlugins('./src/html/pages');
 
 	let config = {
-		devtool: isDev ? 'inline-sourcemap' : false,
+		//devtool: isDev ? 'eval-cheap-module-source-map' : false,
 		entry: mapEntries({
 			main: [
-			'./global.js', 
+			'./global.js',
 			path.resolve(source, 'main.js')
 			]
 		}),
@@ -60,28 +62,27 @@ module.exports = (env) => {
 						fallback: 'style-loader',
 						use: [
 							{ loader: 'css-loader', options: {sourceMap: isDev, importLoaders: 1, url: false } },
-							{ loader: 'postcss-loader', options: {sourceMap: isDev, config: { path: './postcss.config.js' } } },
-							
-							{ loader: 'stylus-loader' },
+							{ loader: 'postcss-loader', options: { sourceMap: false, config: { path: './postcss.config.js'} } },
+							{ loader: 'stylus-loader' }
 							// { loader: 'stylint-loader' }
 						]
 					})
 				},
 				{ test: /\.hbs$/, loader: 'handlebars-loader',
 				query: {
-						extensions: ".hbs",
+						extensions: '.hbs',
 						partialDirs: [
 								path.join(__dirname, 'src/html/components'),
 								path.join(__dirname, 'src/html/layouts')
 						]
-					} 
+					}
 				},
 				{ test: /.js$/,
 					exclude: /node_modules/,
 					use:[
-						{ loader: "eslint-loader", options: { emitError: true, emitWarning: true, failOnError: true } },
-						{ loader: "babel-loader", options: { presets: ["es2015"] } }
-						
+						{ loader: 'eslint-loader', options: { emitError: true, emitWarning: true, failOnError: true } },
+						{ loader: 'babel-loader', options: { presets: ['es2015'] } }
+
 					],
 				},
 			],
@@ -89,22 +90,21 @@ module.exports = (env) => {
 		resolve: {
 			//files in these directory can be required without a relative path
 			modules: ['node_modules'],
-			
+
 			//all these extensions will be resolved without specifying extension in the `require` function
 			extensions: ['*', '.js', '.styl', '.hbs'],
 
 			alias: {
-				handlebars: 'handlebars/dist/handlebars.min.js'
+				handlebars: 'handlebars/dist/handlebars.min.js',
+				components: path.resolve(source, 'components'),
+				modules: path.resolve(source, 'modules')
 		 }
 		},
-		
+
 		plugins: [
-			new ExtractTextPlugin("css/[name].css")
+			new ExtractTextPlugin('css/[name].css')
 		]
 		.concat(HTMLPlugins)
 	}
-	// stylint: {
-	// 	config: './.stylintrc'
-	// }
 	return config;
 }
