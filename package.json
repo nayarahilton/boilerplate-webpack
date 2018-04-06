@@ -3,6 +3,13 @@
   "version": "1.0.0",
   "description": "Setup",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nayarahilton/boilerplate-webpack.git"
+  },
+  "config": {
+    "port": 9000
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch-proxy": "webpack --watch",
