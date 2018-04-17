@@ -9,7 +9,10 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = (env) => {
 	const source = './src/js/'
-	const output =   'dist/assets'
+	const output =  '../dist/assets/'
+	const pagesPath =  '../src/html/pages/'
+	const componentsPath =  '../src/html/components/'
+	const layoutsPath =  '../src/html/layouts/'
 	let isDev = env === 'development'
 
 	//To accomplish our task we will write a simple function to read the files from our views directory and generate an array of HTMLWebpackPlugins.
@@ -24,7 +27,7 @@ module.exports = (env) => {
             return new HTMLWebpackPlugin({
                 alwaysWriteToDisk: true,
                 inject: false,
-                filename: path.resolve(__dirname, `dist/${name}.html`),
+                filename: path.resolve(__dirname, `../dist/${name}.html`),
                 template: path.resolve(__dirname, `${templateDir}/${name}.${extension}`)
             })
         })
@@ -39,14 +42,13 @@ module.exports = (env) => {
 		}, {}), main)
 	}
 
-	const HTMLPlugins = generateHTMLPlugins('./src/html/pages');
+	const HTMLPlugins = generateHTMLPlugins(pagesPath);
 
 	let config = {
 		//devtool: isDev ? 'eval-cheap-module-source-map' : false,
 		entry: mapEntries({
 			main: [
-			'./global.js',
-			path.resolve(source, 'main.js')
+				path.resolve(source, 'main.js')
 			]
 		}),
 		output: {
@@ -72,8 +74,8 @@ module.exports = (env) => {
 				query: {
 						extensions: '.hbs',
 						partialDirs: [
-								path.join(__dirname, 'src/html/components'),
-								path.join(__dirname, 'src/html/layouts')
+								path.join(__dirname, componentsPath),
+								path.join(__dirname, layoutsPath)
 						]
 					}
 				},

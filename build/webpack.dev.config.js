@@ -6,7 +6,7 @@ const html = new HTMLWebpackHarddiskPlugin();
 but the html-webpack-harddisk-plugin to force the html to be written to disk */
 
 devConfig.devServer = {
-    contentBase: [path.resolve(__dirname, 'dist'), path.resolve(__dirname)], 
+    contentBase: [path.resolve(__dirname, '../dist'), path.resolve(__dirname)], 
     // Serves HTML folder and root folder to access assets folder
     publicPath: '/assets/', 
     // Changes default path('./') to path where assets is locate (path in html head tags)

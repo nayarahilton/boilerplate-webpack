@@ -19,11 +19,18 @@ npm manifest:
     "version": "1.0.0",
     "description": "Setup",
     "main": "index.js",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/nayarahilton/boilerplate-webpack.git"
+    },
+    "config": {
+      "port": 9000
+    },
     "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
       "watch-proxy": "webpack --watch",
-      "start": "NODE_ENV=development webpack-dev-server --config webpack.dev.config.js --hot --inline",
-      "build": "NODE_ENV=production webpack --config webpack.prod.config.js --display-chunks --display-reasons --display-error-details"
+      "start": "NODE_ENV=development webpack-dev-server --config webpack/webpack.dev.config.js --hot --inline",
+      "build": "NODE_ENV=production webpack --config webpack/webpack.prod.config.js --display-chunks --display-reasons --display-error-details"
     },
     "author": "Nayara Hilton",
     "license": "ISC",
@@ -6700,8 +6707,8 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: sh
-  Arguments: -c NODE_ENV=development webpack-dev-server --config webpack.dev.config.js --hot --inline
-  Directory: /Users/nhilton/Desktop/boilerplate-webpack
+  Arguments: -c NODE_ENV=development webpack-dev-server --config webpack/webpack.dev.config.js --hot --inline
+  Directory: /Users/nhilton/Desktop/projects/boilerplate-webpack
   Output:
   
       at ProcessTermError.MessageError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:186:110)
