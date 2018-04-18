@@ -8,47 +8,57 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
 module.exports = (env) => {
-	const source = './src/js/'
+	const source = './src/pages/'
 	const output =  '../dist/assets/'
-	const pagesPath =  '../src/html/pages/'
-	const componentsPath =  '../src/html/components/'
-	const layoutsPath =  '../src/html/layouts/'
+	const pagesPath =  '../src/pages/'
+	const componentsPath =  '../src/components/'
+	const layoutsPath =  'src/layouts/'
 	let isDev = env === 'development'
+	const partialDirName = glob.sync('src/components/**/');
+	partialDirName.push(layoutsPath)
+	partialDirName.shift()
+	partialDirName2 = partialDirName.map(function(e) {return path.join(__dirname, '../' + e)});
 
 	//To accomplish our task we will write a simple function to read the files from our views directory and generate an array of HTMLWebpackPlugins.
 
-	function generateHTMLPlugins (templateDir) {
+	function generateHTMLPlugins (templateDir, extension) {
         const templates = fs.readdirSync(path.resolve(__dirname, templateDir))
         return templates.map(item => {
             // Split names and extension
             const parts = item.split('.')
             const name = parts[0]
-            const extension = parts[1]
             return new HTMLWebpackPlugin({
                 alwaysWriteToDisk: true,
                 inject: false,
                 filename: path.resolve(__dirname, `../dist/${name}.html`),
-                template: path.resolve(__dirname, `${templateDir}/${name}.${extension}`)
+                template: path.resolve(__dirname, `${templateDir}/${name}/${name}.${extension}`)
             })
         })
-    }
+	}
+	
+	console.log('NAYARA', glob.sync('src/pages/**/*.js'))
 
 	//expands source for target apps and merge objects with give 'main'
 	function mapEntries(main) {
-		return Object.assign(glob.sync(source + '/*.js').reduce(function(x, file) {
+		return Object.assign(glob.sync(source + '**/*.js').reduce(function(obj, file) {
 			var name = path.basename(file, '.js');
-			x[ name ] = path.resolve(source, name);
-			return x;
+			obj[ name ] = './src/pages/' + name + '/' +  name + '.js';
+			return obj;
 		}, {}), main)
 	}
+	console.log('MAPEANDO', mapEntries({
+		main: [
+			'./src/defaults/main.js'
+		]
+	}))
 
-	const HTMLPlugins = generateHTMLPlugins(pagesPath);
+	const HTMLPlugins = generateHTMLPlugins(pagesPath, 'hbs');
 
 	let config = {
 		//devtool: isDev ? 'eval-cheap-module-source-map' : false,
 		entry: mapEntries({
 			main: [
-				path.resolve(source, 'main.js')
+				'./src/defaults/main.js'
 			]
 		}),
 		output: {
@@ -73,10 +83,7 @@ module.exports = (env) => {
 				{ test: /\.hbs$/, loader: 'handlebars-loader',
 				query: {
 						extensions: '.hbs',
-						partialDirs: [
-								path.join(__dirname, componentsPath),
-								path.join(__dirname, layoutsPath)
-						]
+						partialDirs: partialDirName2
 					}
 				},
 				{ test: /.js$/,
