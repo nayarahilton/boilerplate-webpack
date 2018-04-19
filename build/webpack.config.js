@@ -1,7 +1,7 @@
 require('./Global')
 const generateHTMLPlugins = require('./helpers/generate-html')
 const mapEntries = require('./helpers/map-entries')
-console.log(nay)
+console.log(output)
 
 module.exports = (env) => {
 	let isDev = env === 'development'
@@ -21,7 +21,7 @@ module.exports = (env) => {
 		}),
 		output: {
 			filename: 'js/[name].min.js',
-			path: path.resolve(__dirname, output)
+			path: path.join(__dirname, output)
 		},
 		module: {
 			rules: [

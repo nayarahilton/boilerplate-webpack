@@ -8,7 +8,7 @@ require('../Global')
 		 return new HTMLWebpackPlugin({
 			 alwaysWriteToDisk: true,
 			 inject: false,
-			 filename: path.resolve(__dirname, `../dist/${name}.html`),
+			 filename: path.join(__dirname, `../../dist/${name}.html`),
 			 template: path.resolve(__dirname, `${templateDir}/${name}/${name}.${extension}`)
 		 })
 	 })

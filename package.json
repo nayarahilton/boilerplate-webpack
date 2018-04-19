@@ -10,7 +10,7 @@
   "config": {
     "port": 9000,
     "source": "./src/pages/",
-    "output":  "./dist/assets/",
+    "output":  "dist/assets/",
     "pagesPath":  "src/pages/",
     "componentsPath":  "src/components/**/",
     "layoutsPath":  "src/layouts/"
