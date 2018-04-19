@@ -26,16 +26,16 @@ npm manifest:
     "config": {
       "port": 9000,
       "source": "./src/pages/",
-      "output":  "../dist/assets/",
-      "pagesPath":  "../src/pages/",
+      "output":  "dist/assets/",
+      "pagesPath":  "src/pages/",
       "componentsPath":  "src/components/**/",
       "layoutsPath":  "src/layouts/"
     },
     "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
       "watch-proxy": "webpack --watch",
-      "start": "NODE_ENV=development webpack-dev-server --config build/webpack.dev.config.js --hot --inline",
-      "build": "NODE_ENV=production webpack --config build/webpack.prod.config.js --display-chunks --display-reasons --display-error-details"
+      "start": "NODE_ENV=development webpack-dev-server --config config/webpack.dev.config.js --hot --inline",
+      "build": "NODE_ENV=production webpack --config config/webpack.prod.config.js --display-chunks --display-reasons --display-error-details"
     },
     "author": "Nayara Hilton",
     "license": "ISC",
@@ -6712,7 +6712,7 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: sh
-  Arguments: -c NODE_ENV=development webpack-dev-server --config build/webpack.dev.config.js --hot --inline
+  Arguments: -c NODE_ENV=development webpack-dev-server --config config/webpack.dev.config.js --hot --inline
   Directory: /Users/nhilton/Desktop/projects/boilerplate-webpack
   Output:
   

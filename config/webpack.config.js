@@ -1,7 +1,20 @@
-require('./Global')
+const fs = require('fs');
+const path = require('path');
+const glob = require('glob');
+const webpack = require('webpack');
+const optimize = webpack.optimize;
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const generateHTMLPlugins = require('./helpers/generate-html')
 const mapEntries = require('./helpers/map-entries')
-console.log(output)
+
+//Paths
+const PACKAGE = require('../package.json').config;
+const source = PACKAGE.source;
+const output =  PACKAGE.output;
+const pagesPath =  PACKAGE.pagesPath;
+const componentsPath = PACKAGE.componentsPath;
+const layoutsPath = PACKAGE.layoutsPath;
+
 
 module.exports = (env) => {
 	let isDev = env === 'development'

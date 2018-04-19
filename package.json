@@ -18,8 +18,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch-proxy": "webpack --watch",
-    "start": "NODE_ENV=development webpack-dev-server --config build/webpack.dev.config.js --hot --inline",
-    "build": "NODE_ENV=production webpack --config build/webpack.prod.config.js --display-chunks --display-reasons --display-error-details"
+    "start": "NODE_ENV=development webpack-dev-server --config config/webpack.dev.config.js --hot --inline",
+    "build": "NODE_ENV=production webpack --config config/webpack.prod.config.js --display-chunks --display-reasons --display-error-details"
   },
   "author": "Nayara Hilton",
   "license": "ISC",

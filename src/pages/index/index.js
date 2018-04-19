@@ -1,3 +1,2 @@
-console.log('HOME');
-require('./index.styl');
+console.log('HOME 2');
 
