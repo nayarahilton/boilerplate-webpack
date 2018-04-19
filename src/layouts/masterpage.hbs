@@ -15,16 +15,15 @@
 <body data-component="structure/body common/tracker">
 
 	{{^header}}
-	{{> header }}
+		{{> header }}
 	{{/header}}
-	{{{ header }}}
 
     {{> @partial-block }}
 
 	{{^footer}}
-	{{> footer }}
+		{{> footer }}
 	{{/footer}}
-	{{{ footer }}}
+
 
     <script>var common = { assetsRoot: '/assets' }</script>
     <script defer id="main-script" src="/assets/js/main.min.js"></script>
