@@ -44,7 +44,7 @@ module.exports = (env) => {
 					use: ExtractTextPlugin.extract({
 						fallback: 'style-loader',
 						use: [
-							{ loader: 'css-loader', options: {sourceMap: isDev, importLoaders: 1, url: false } },
+							{ loader: 'css-loader', options: {sourceMap: isDev, importLoaders: 1 } },
 							{ loader: 'postcss-loader', options: { sourceMap: false, config: { path: './postcss.config.js'} } },
 							{ loader: 'stylus-loader' }
 							// { loader: 'stylint-loader' }
@@ -57,13 +57,26 @@ module.exports = (env) => {
 						partialDirs: partialDirName2
 					}
 				},
-				{ test: /.js$/,
+				{ 
+					test: /.js$/,
 					exclude: /node_modules/,
 					use:[
 						{ loader: 'eslint-loader', options: { emitError: true, emitWarning: true, failOnError: true } },
 						{ loader: 'babel-loader', options: { presets: ['es2015'] } }
 
 					],
+				},
+				{
+					test: /\.(jpe?g|png|gif|svg)$/i,
+					use: [
+					  {
+						loader: 'url-loader',
+						options: {
+						  limit: 8192,
+						  name: '/assets/images/[name].[ext]',
+						}
+					  }
+					]
 				},
 			],
 		},
