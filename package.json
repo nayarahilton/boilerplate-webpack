@@ -8,7 +8,12 @@
     "url": "https://github.com/nayarahilton/boilerplate-webpack.git"
   },
   "config": {
-    "port": 9000
+    "port": 9000,
+    "source": "./src/pages/",
+    "output":  "./dist/assets/",
+    "pagesPath":  "src/pages/",
+    "componentsPath":  "src/components/**/",
+    "layoutsPath":  "src/layouts/"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
