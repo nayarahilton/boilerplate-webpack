@@ -78,6 +78,19 @@ module.exports = (env) => {
 					  }
 					]
 				},
+				{
+					test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+					use: [
+					  {
+						loader: 'file-loader',
+						options: {
+						  limit: 50000,
+						  mimetype: 'application/font-woff',
+						  name: './assets/fonts/[name].[ext]',
+						},
+					  }
+					],
+				},
 			],
 		},
 		resolve: {

@@ -1,4 +1,4 @@
-console.log('HOME 2');
+console.log('HOME');
 
 function importAll(r) {
 	return r.keys().map(r);
